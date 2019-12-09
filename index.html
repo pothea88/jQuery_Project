@@ -8,7 +8,6 @@
     <title>jQuery_project</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -17,15 +16,14 @@
                 <form class="mt-4">
                     <div class="form-group ">
                         <select name="select" id="selected" class="form-control alert-success">
-                            <option disabled selected>---------Select--------</option>
-                            <option value="0">Avocado Shake (Toek KaLok)</option>
-                            <option value="1">French creps</option>
+                            <option value="" disabled selected>Choose recipes...</option>
                         </select>
                     </div>
                 </form>
             </div>
             <div class="col-4"></div>
         </div>
+        <hr>
     </div>
     <div class="container">
         <div class="row">
@@ -33,14 +31,15 @@
             <div class="col-6">
                 <div id="result"></div>
                 <form>
-                    <div class="container mt-3">
+                    <div class="container mt-5">
                         <div class="input-group mb-3">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary sm" type="button" id="decrease">-</button>  
+                            Number of persons :
+                            <div class="input-group-append" style="margin-left: 20px;">
+                                <input type="button" id="decrease" value="-" class="text-primary border-primary">
                             </div>
                             <div id="getInput"></div>
                             <div class="input-group-append">
-                                <button class="btn btn-danger sm" type="button" id="increase">+</button>  
+                                <input type="button" id="increase" value="+" class="text-primary border-primary">
                             </div>
                         </div>
                     </div>
@@ -51,7 +50,13 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-6 " id="getGredient"></div>
+            <div class="col-5 ">
+                <table class="table">
+                    <thead id="getGredient">
+                    </thead>
+                </table>
+            </div>
+            <div class="col-1" id="vertical-line"></div>
             <div class="col-6" id="getStep"></div>
         </div>
     </div>

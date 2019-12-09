@@ -1,8 +1,4 @@
 $(document).ready(function () {
-    // $('#selected').on('change', () => {
-    //     var recipes = $('#selected').val();
-    //     chooseRecipe(recipes);
-    // });
     requestApi();
     $("#increase").on('click', function () {
         var oldVal = $('#number').val();
@@ -18,7 +14,7 @@ var requestApi = () => {
     $.ajax({
         dataType: 'json',
         url: getUrl(),
-        success: (getData) => getRecipe(getData),
+        success: (getData) => getAllRecipe(getData.recipes),
         error: () => getError()
     });
 }
@@ -29,57 +25,79 @@ var getUrl = () => {
 }
 //getError
 var getError = () => console.log("error");
+//get recipes to select option
+var allData = [];
+function getAllRecipe(recipe) {
+    console.log(recipe);
+    allData = recipe;
+    var option = "";
+    recipe.forEach(select => {
+        option +=`
+            <option value="${select.id}">${select.name}</option>;
+        `
+    });
+    $('#selected').append(option);
+    getRecipe(allData);
+};
 //get recipe
 var getRecipe = (data) => {
-    data.recipes.forEach(element => {
+    data.forEach(element => {
         $("#selected").on('change',function(){
             var selectId = $('#selected').val();
             console.log(selectId);
             if(element.id == selectId){
-                getIngredient(element.ingredients);
                 computeRecipe(element);
+                getIngredient(element);
+                computeIngredient();
             };
         });
     });
 }
-//get ingredient
-var getIngredient = (ing) => {
-    ing.forEach(item => {
-        computeIngredient(item);
-    })
-}
-//conpute recipe
+// conpute recipe
 var computeRecipe = (outPut) => {
         var getOutPut = "";
         var getNumber = "";
         var getStep = "";
         getOutPut += `
-        ${outPut.name}
-        <img src="${outPut.iconUrl}" width="100">
+        <h3 style="font-size:25px;">
+            ${outPut.name}
+            <img src="${outPut.iconUrl}" width="200" class="img-fluid rounded">
+        </h3> 
+       
     `;
-        getNumber += `
-        <input type="text" id="number" value="${outPut.nbGuests}" disabled style="text-align:center">
+    getNumber += `
+    <input type="text" id="number" class="text-danger border-primary" value="${outPut.nbGuests}" disabled style="text-align:center">
     `;
-        getStep += `
+    getStep += `
+        <h5><strong>Instruction</strong></h5>
         ${outPut.instructions}
     `;
-        var a1 = new Array();
-        a1 = getStep.split("<step>,");
-        $("#getStep").html(a1.join(" <br> "));
-        $('#getInput').html(getNumber);
-        $('#result').html(getOutPut);
-}
-//comput ingredient
-var computeIngredient = (display) => {
+    var a1 = new Array();
+    a1 = getStep.split("<step>");
+    $("#getStep").html(a1.join(" <br> "));
+    $('#getInput').html(getNumber);
+    $('#result').html(getOutPut);
+} 
+//get vertical line
+
+//get ingredient
+var getIngredient = (ing => {
     var getDisplay = "";
     getDisplay += `
-        <img src="${display.iconUrl}" class="img-fluid rounded" width="50">
-        ${display.quantity}
-        ${display.unit[0]}
-        ${display.name}<br>
+        <h5><strong>Ingredients</strong></h5>
     `;
-    $('#getGredient').append(getDisplay);
-}
+    ing.ingredients.forEach(display => {
+        getDisplay += `
+            <tr>
+                <td><img src="${display.iconUrl}" class="img-fluid rounded" width="50"></td>
+                <td class="text-danger">${display.quantity}</td>
+                <td>${display.unit[0]}</td>
+                <td>${display.name}</td>
+            </tr>
+        `;
+    });
+    $('#getGredient').html(getDisplay);
+});
 //Increase number of person
 function addNumber(getNumAdd) {
     var add = parseInt(getNumAdd) + 1;
@@ -96,19 +114,7 @@ function minusNumber(getMi) {
         $('#number').val(minus);
     }
 }
-// choose recipe from select [arrow function]
-// var chooseRecipe = (myRecipe) => {
-//     var onlyNumber = parseInt(myRecipe);
-//     switch (onlyNumber) {
-//         case 0:
-//             
-//             break;
-//         case 1:
-//             requestApi();
-//             break;
-//         default: console.warn("You choose nothing");
-//     }
-// }
+
 
 
 
