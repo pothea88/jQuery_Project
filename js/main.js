@@ -28,7 +28,6 @@ var getError = () => console.log("error");
 //get recipes to select option
 var allData = [];
 function getAllRecipe(recipe) {
-    console.log(recipe);
     allData = recipe;
     var option = "";
     recipe.forEach(select => {
@@ -44,11 +43,10 @@ var getRecipe = (data) => {
     data.forEach(element => {
         $("#selected").on('change',function(){
             var selectId = $('#selected').val();
-            console.log(selectId);
             if(element.id == selectId){
                 computeRecipe(element);
                 getIngredient(element);
-                computeIngredient();
+                // computeIngredient();
             };
         });
     });
@@ -104,7 +102,7 @@ function addNumber(getNumAdd) {
     console.log(add);
     if (add <= 15) {
         $('#number').val(add);
-        // comNumOfUnitAdd(add);
+        comNumOfUnitAdd(add);
     }
 }
 //decrease number of person
@@ -113,6 +111,10 @@ function minusNumber(getMi) {
     if (minus >= 1) {
         $('#number').val(minus);
     }
+}
+//compute Number of Unit Add
+var comNumOfUnitAdd = (com) => {
+    
 }
 
 
