@@ -46,7 +46,6 @@ var getRecipe = (data) => {
             if(element.id == selectId){
                 computeRecipe(element);
                 getIngredient(element);
-                // computeIngredient();
             };
         });
     });
@@ -61,7 +60,6 @@ var computeRecipe = (outPut) => {
             ${outPut.name}
             <img src="${outPut.iconUrl}" width="200" class="img-fluid rounded">
         </h3> 
-       
     `;
     getNumber += `
     <input type="text" id="number" class="text-danger border-primary" value="${outPut.nbGuests}" disabled style="text-align:center">
@@ -72,10 +70,14 @@ var computeRecipe = (outPut) => {
     `;
     var a1 = new Array();
     a1 = getStep.split("<step>");
-    $("#getStep").html(a1.join(" <br> "));
+    $('#getStep').html(a1.join(" <br> "));
+    for(let i = 1; i < a1.length; i++){
+        console.log("step: "+i);
+    }
     $('#getInput').html(getNumber);
     $('#result').html(getOutPut);
 } 
+
 //get vertical line
 
 //get ingredient
@@ -112,10 +114,7 @@ function minusNumber(getMi) {
         $('#number').val(minus);
     }
 }
-//compute Number of Unit Add
-var comNumOfUnitAdd = (com) => {
-    
-}
+
 
 
 
