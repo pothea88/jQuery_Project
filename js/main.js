@@ -8,6 +8,7 @@ $(document).ready(function () {
         var getOldVal = $('#number').val();
         minusNumber(getOldVal);
     });
+    $("#hide").hide();
 });
 //get api
 var requestApi = () => {
@@ -42,6 +43,7 @@ function getAllRecipe(recipe) {
 var getRecipe = (data) => {
     data.forEach(element => {
         $("#selected").on('change',function(){
+            $("#hide").show();
             var selectId = $('#selected').val();
             if(element.id == selectId){
                 computeRecipe(element);
@@ -62,29 +64,39 @@ var computeRecipe = (outPut) => {
         </h3> 
     `;
     getNumber += `
-    <input type="text" id="number" class="text-danger border-primary" value="${outPut.nbGuests}" disabled style="text-align:center">
+        <input type="text" id="number" class="text-danger border-primary" value="${outPut.nbGuests}" disabled style="text-align:center">
     `;
     getStep += `
-        <h5><strong>Instruction</strong></h5>
         ${outPut.instructions}
     `;
-    var a1 = new Array();
-    a1 = getStep.split("<step>");
-    $('#getStep').html(a1.join(" <br> "));
-    for(let i = 1; i < a1.length; i++){
-        console.log("step: "+i);
-    }
+    get(getStep);
     $('#getInput').html(getNumber);
     $('#result').html(getOutPut);
 } 
 
-//get vertical line
+//get instruction
+var get = (datai) => {
+    var result = "";
+    var cutStep = datai.split("<step>");
+    for(let i = 1; i< cutStep.length; i++){
+        result +=`
+            <tr>
+                <td>
+                    <h6 class="text-primary">step:${i}</h6>
+                    <p>${cutStep[i]}</p>
+                </td>
+            </tr>
+        `;
+    }
+    $('#instruction').html('Instruction');
+    $('#getStep').html(result);
+}
 
 //get ingredient
 var getIngredient = (ing => {
     var getDisplay = "";
     getDisplay += `
-        <h5><strong>Ingredients</strong></h5>
+        <h5 class="text-primary">Ingredients</h5>
     `;
     ing.ingredients.forEach(display => {
         getDisplay += `
@@ -114,6 +126,7 @@ function minusNumber(getMi) {
         $('#number').val(minus);
     }
 }
+//culculate 
 
 
 
